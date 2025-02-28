@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{.Title}} - Детальная страница</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-..."
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+</head>
+<body>
+<header class="header">
+    <div class="header__logo">
+        <a href="/">BookStore</a>
+    </div>
+    <div class="header__search">
+        <input type="text" placeholder="Поиск по книгам..." />
+        <button>Найти</button>
+    </div>
+    <nav class="header__nav">
+        <a href="#" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Профиль</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Заказы</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Избранное</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Корзина</span>
+        </a>
+    </nav>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <div class="book-detail">
+            <div class="book-detail__cover-wrapper">
+                <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-detail__cover"/>
+            </div>
+
+            <div class="book-detail__info">
+                <h1>{{.Title}}</h1>
+                <p class="book-detail__short-description">{{.Description}}</p>
+                <!-- Кнопка для плавного перехода к секции полного описания -->
+                <button class="btn btn-full-description">Полное описание</button>
+                <div class="book-detail__characteristics">
+                    <p><strong>Автор:</strong> {{.Author}}</p>
+                    <p><strong>Категория:</strong> {{.Category}}</p>
+                </div>
+                <!-- Кнопка для плавного перехода к секции характеристик -->
+                <button class="btn btn-all-characteristics">Все характеристики</button>
+                <div class="book-detail__purchase">
+                    <div class="book-detail__price">{{printf "%.2f" .Price}} ₽</div>
+                    <button class="btn btn-add-cart">Добавить в корзину</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новые секции -->
+        <div class="book-additional-info">
+            <section class="books-by-author">
+                <h2>Книги от автора</h2>
+                <div class="books">
+                    <div class="book-card">
+                        <img src="/static/images/sample-book.jpg" alt="Название книги" class="book-card__cover">
+                    </div>
+                </div>
+            </section>
+            <!-- Добавляем идентификатор для секции полного описания -->
+            <div class="book-detail-extra" id="full-description-section">
+                <h2>Детальная информация</h2>
+                <p>{{.DetailedDescription}}</p>
+            </div>
+            <!-- Добавляем идентификатор для секции характеристик -->
+            <section class="book-characteristics-detailed" id="characteristics-section">
+                <h2>Характеристики</h2>
+                <p>Подробные характеристики книги (формат, количество страниц, издательство и т.д.)</p>
+            </section>
+            <section class="book-reviews animate-on-scroll">
+                <h2>Отзывы</h2>
+                <p>Здесь будут отображаться отзывы читателей.</p>
+            </section>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>© 2025 BookStore. Все права защищены.</p>
+</footer>
+
+<!-- Подключение внешнего JavaScript-файла -->
+<script src="/static/js/script.js"></script>
+</body>
+</html>
