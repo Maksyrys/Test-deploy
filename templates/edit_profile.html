@@ -1,0 +1,41 @@
+{{ define "title" }}Редактирование профиля{{ end }}
+
+{{ define "content" }}
+<main class="main-content">
+    <div class="container profile-edit-container">
+        <h2>Редактирование профиля</h2>
+
+        <div class="profile-edit-form-wrapper">
+            <form action="/profile/edit" method="POST" enctype="multipart/form-data" class="profile-edit-form">
+                <div class="form-group">
+                    <label for="first_name">Имя:</label>
+                    <input type="text" name="first_name" id="first_name" value="{{.CurrentUser.FirstName}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">Фамилия:</label>
+                    <input type="text" name="last_name" id="last_name" value="{{.CurrentUser.LastName}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Телефон:</label>
+                    <input type="text" name="phone" id="phone" value="{{.CurrentUser.Phone}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="profile_photo">Аватарка:</label>
+                    <input type="file" name="profile_photo" id="profile_photo" accept="image/*">
+                    {{ if .CurrentUser.ProfilePhoto }}
+                    <div class="current-photo-preview">
+                        <span>Текущая фотография:</span>
+                        <img src="{{.CurrentUser.ProfilePhoto}}" alt="avatar" class="current-photo"/>
+                    </div>
+                    {{ end }}
+                </div>
+
+                <button type="submit" class="btn submit-btn">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</main>
+{{ end }}
