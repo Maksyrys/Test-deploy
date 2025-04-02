@@ -8,12 +8,13 @@ const (
 	user     = "postgres"
 	password = "1111"
 	sslmode  = "disable"
+	key      = "key"
 )
 
 type Config struct {
 	Dir string
-
-	BD struct {
+	Key string
+	BD  struct {
 		Host     string
 		Port     string
 		Username string
@@ -26,6 +27,7 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		Dir: dir,
+		Key: key,
 		BD: struct {
 			Host     string
 			Port     string

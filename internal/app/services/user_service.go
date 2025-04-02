@@ -5,9 +5,9 @@ import (
 	"BookStore/internal/models"
 	"BookStore/internal/repository"
 	"errors"
+	"log"
 )
 
-// UserService описывает интерфейс бизнес-логики, связанной с пользователями.
 type UserService interface {
 	GetUserReviews(userID int) ([]models.Review, error)
 	UpdateProfile(user *models.User) error
@@ -15,27 +15,22 @@ type UserService interface {
 	LoginUser(email, password string) (models.User, error)
 }
 
-// UserService – конкретная реализация UserService.
 type userService struct {
 	rep *repository.Repository
 }
 
-// NewUserService возвращает новый экземпляр userService.
 func NewUserService(rep *repository.Repository) UserService {
 	return &userService{rep: rep}
 }
 
-// GetUserReviews получает отзывы пользователя через репозиторий.
 func (s *userService) GetUserReviews(userID int) ([]models.Review, error) {
 	return s.rep.Review.GetUserReviews(userID)
 }
 
-// UpdateProfile обновляет профиль пользователя.
 func (s *userService) UpdateProfile(user *models.User) error {
 	return s.rep.User.UpdateUserProfile(*user)
 }
 
-// RegisterUser регистрирует нового пользователя: хеширует пароль и создаёт запись.
 func (s *userService) RegisterUser(email, password, username string) (int, error) {
 	hashedPassword, err := utils.HashPassword(password)
 	if err != nil {
@@ -51,14 +46,19 @@ func (s *userService) RegisterUser(email, password, username string) (int, error
 	return s.rep.User.CreateUser(user)
 }
 
-// LoginUser выполняет аутентификацию: ищет пользователя по email и проверяет пароль.
 func (s *userService) LoginUser(email, password string) (models.User, error) {
 	user, err := s.rep.User.GetUserByEmail(email)
 	if err != nil {
+		log.Printf("Ошибка получения пользователя по email %q: %v", email, err)
 		return user, err
 	}
 
+	// Логируем хеш пароля, полученный из БД
+	log.Printf("Пользователь найден: %s, хеш пароля: %s", user.Username, user.Password)
+
+	// Проверяем введённый пароль и логируем результат сравнения
 	if !utils.CheckPasswordHash(password, user.Password) {
+		log.Printf("Сравнение хеша не прошло. Введённый пароль: %q, ожидаемый хеш: %s", password, user.Password)
 		return user, errors.New("Неверный пароль")
 	}
 

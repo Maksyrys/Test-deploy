@@ -1,94 +1,35 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8" />
-    <title>BookStore - Главная</title>
-    <link rel="stylesheet" href="/static/css/styles.css" />
 
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-            integrity="sha512-..."
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-</head>
-
-<body>
-<!-- Шапка сайта (Header) -->
-<header class="header">
-    <div class="header__logo">
-        <a href="/">BookStore</a>
-    </div>
-    <div class="header__search">
-        <input type="text" placeholder="Поиск по книгам..." />
-        <button>Найти</button>
-    </div>
-    <nav class="header__nav">
-        <!-- Профиль -->
-        <a href="#" class="nav-item">
-            <i class="fas fa-user"></i>
-            <span>Профиль</span>
-        </a>
-        <!-- Заказы -->
-        <a href="#" class="nav-item">
-            <i class="fas fa-clipboard-list"></i>
-            <span>Заказы</span>
-        </a>
-        <!-- Избранное -->
-        <a href="#" class="nav-item">
-            <i class="fas fa-heart"></i>
-            <span>Избранное</span>
-        </a>
-        <!-- Корзина -->
-        <a href="#" class="nav-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Корзина</span>
-        </a>
-    </nav>
-</header>
-
-<!-- Баннер / промо-блок -->
-<section class="promo">
-    <div class="promo__content">
-        <h1>Добро пожаловать в наш BookStore!</h1>
-        <p>Здесь вы найдёте лучшие книги по привлекательным ценам.</p>
-        <button class="promo__button">Смотреть все книги</button>
-    </div>
-</section>
-
-<!-- Блок с книгами (Рекомендации) -->
+{{ define "title" }}BookStore - Главная{{ end }}
+{{ define "content" }}
 <main class="main-content">
-    <div class="container recommendation-section">
+    <!-- Новый промо-блок с более спокойным градиентом -->
+    <section class="promo animated-section">
+        <div class="promo__overlay">
+            <div class="promo__content">
+                <h1>Добро пожаловать в BookStore!</h1>
+                <p>Огромный выбор книг на любой вкус и кошелёк.<br>Погрузитесь в мир литературы прямо сейчас.</p>
+                <a href="/catalog" class="btn btn-cta">Смотреть каталог</a>
+            </div>
+        </div>
+    </section>
 
-        <!-- Здесь . — это map[string][]models.Book: ключ — категория, значение — срез книг -->
-        {{ range $categoryName, $books := . }}
-        <div class="category-block">
-            <h3>{{ $categoryName }}</h3>
-            <div class="books">
-                {{ range $books }}
-                <a href="/book/{{.ID}}" class="book-card">
-                    <img
-                            src="{{.ImageURL}}"
-                            alt="{{.Title}}"
-                            class="book-card__cover"
-                    />
+    <!-- Секция рекомендованных / случайных книг -->
+    <section class="random-books-section container animated-section">
+        <h2>Возможно, вас заинтересуют эти книги</h2>
+        <div class="books-index">
+            {{ range .RandomBooks }}
+            <a href="/book/{{.ID}}" class="book-card fade-on-hover">
+                <div class="book-card__cover-wrapper">
+                    <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-card__cover" />
+                </div>
+                <div class="book-card__info">
                     <div class="book-card__title">{{ .Title }}</div>
                     <div class="book-card__author">Автор: {{ .Author }}</div>
                     <div class="book-card__price">Цена: {{ printf "%.2f" .Price }} ₽</div>
-                </a>
-                {{ end }}
-            </div>
+                </div>
+            </a>
+            {{ end }}
         </div>
-        {{ end }}
-    </div>
+    </section>
 </main>
-
-<!-- Подвал сайта (Footer) -->
-<footer class="footer">
-    <p>© 2025 BookStore. Все права защищены.</p>
-</footer>
-<!-- Подключение внешнего JavaScript-файла -->
-<script src="/static/js/script.js"></script>
-</body>
-</html>
+{{ end }}

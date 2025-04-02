@@ -1,41 +1,32 @@
 {{ define "title" }}Редактирование профиля{{ end }}
-
 {{ define "content" }}
 <main class="main-content">
-    <div class="container profile-edit-container">
-        <h2>Редактирование профиля</h2>
+    <div class="container edit-profile-container">
+        <h1 class="page-title">Редактирование профиля</h1>
 
-        <div class="profile-edit-form-wrapper">
-            <form action="/profile/edit" method="POST" enctype="multipart/form-data" class="profile-edit-form">
-                <div class="form-group">
-                    <label for="first_name">Имя:</label>
-                    <input type="text" name="first_name" id="first_name" value="{{.CurrentUser.FirstName}}">
-                </div>
+        <form action="/profile/edit" method="POST" class="form-profile">
+            <div class="form-group">
+                <label>Имя пользователя</label>
+                <input type="text" name="username" value="{{ .CurrentUser.Username }}" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="last_name">Фамилия:</label>
-                    <input type="text" name="last_name" id="last_name" value="{{.CurrentUser.LastName}}">
-                </div>
+            <div class="form-group">
+                <label>Имя</label>
+                <input type="text" name="firstname" value="{{ .CurrentUser.Firstname }}">
+            </div>
 
-                <div class="form-group">
-                    <label for="phone">Телефон:</label>
-                    <input type="text" name="phone" id="phone" value="{{.CurrentUser.Phone}}">
-                </div>
+            <div class="form-group">
+                <label>Фамилия</label>
+                <input type="text" name="lastname" value="{{ .CurrentUser.Lastname }}">
+            </div>
 
-                <div class="form-group">
-                    <label for="profile_photo">Аватарка:</label>
-                    <input type="file" name="profile_photo" id="profile_photo" accept="image/*">
-                    {{ if .CurrentUser.ProfilePhoto }}
-                    <div class="current-photo-preview">
-                        <span>Текущая фотография:</span>
-                        <img src="{{.CurrentUser.ProfilePhoto}}" alt="avatar" class="current-photo"/>
-                    </div>
-                    {{ end }}
-                </div>
+            <div class="form-group">
+                <label>Телефон</label>
+                <input type="text" name="phone" value="{{ .CurrentUser.Phone }}">
+            </div>
 
-                <button type="submit" class="btn submit-btn">Сохранить</button>
-            </form>
-        </div>
+            <button type="submit" class="btn submit-btn">Сохранить изменения</button>
+        </form>
     </div>
 </main>
 {{ end }}

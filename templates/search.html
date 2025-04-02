@@ -1,0 +1,27 @@
+{{ define "title" }}Результаты поиска{{ end }}
+{{ define "content" }}
+<main class="main-content container">
+    <section class="search-results-section">
+        <h3>Результаты поиска: "{{ .Query }}"</h3>
+
+        {{ if .Books }}
+        <div class="books">
+            {{ range .Books }}
+            <a href="/book/{{.ID}}" class="book-card animate-on-scroll">
+                <div class="book-card__cover-wrapper">
+                    <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-card__cover" />
+                </div>
+                <div class="book-card__info">
+                    <div class="book-card__title">{{.Title}}</div>
+                    <div class="book-card__author">Автор: {{.Author}}</div>
+                    <div class="book-card__price">Цена: {{printf "%.2f" .Price}} ₽</div>
+                </div>
+            </a>
+            {{ end }}
+        </div>
+        {{ else }}
+        <p class="no-search-results">Ничего не найдено.</p>
+        {{ end }}
+    </section>
+</main>
+{{ end }}

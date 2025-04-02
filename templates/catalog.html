@@ -1,0 +1,50 @@
+{{ define "title" }}Каталог книг{{ end }}
+{{ define "content" }}
+<main class="main-content container">
+    <div class="catalog-page">
+        <!-- Боковая панель с категориями -->
+        <aside class="catalog-sidebar">
+            <h2>Категории</h2>
+            <ul>
+                {{ range .Categories }}
+                <li>
+                    <a href="/catalog?cat_id={{.ID}}"
+                       class="{{if eq $.SelectedCategoryID .ID}}active-category{{end}}">
+                        {{.Name}}
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+        </aside>
+
+        <!-- Основной контент каталога -->
+        <section class="catalog-content">
+            <!-- (Опционально) Пример панели сортировки -->
+            <div class="catalog-toolbar">
+                <span class="toolbar-label">Сортировать по:</span>
+                <button class="toolbar-btn">Новизне</button>
+                <button class="toolbar-btn">Цене</button>
+                <button class="toolbar-btn">Популярности</button>
+            </div>
+
+            <!-- Вместо условий просто выводим книги -->
+            <div class="category-block">
+                <div class="books">
+                    {{ range .Books }}
+                    <a href="/book/{{.ID}}" class="book-card animate-on-scroll">
+                        <div class="book-card__cover-wrapper">
+                            <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-card__cover" />
+                        </div>
+                        <div class="book-card__info">
+                            <div class="book-card__title">{{ .Title }}</div>
+                            <div class="book-card__author">Автор: {{ .Author }}</div>
+                            <div class="book-card__price">Цена: {{ printf "%.2f" .Price }} ₽</div>
+                        </div>
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{{ end }}

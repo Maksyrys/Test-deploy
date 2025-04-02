@@ -1,106 +1,123 @@
-{{ define "title" }}Админ Панель{{ end }}
 
+{{ define "title" }}Админ панель{{ end }}
 {{ define "content" }}
-<div class="container">
-    <h1>Панель администратора</h1>
+<div class="admin-wrapper">
+    <aside class="admin-sidebar">
+        <ul>
+            <li data-target="books-section" class="active">
+                <i class="fas fa-book"></i>
+                <span>Список книг</span>
+            </li>
+            <li data-target="add-book-section">
+                <i class="fas fa-plus"></i>
+                <span>Добавить книгу</span>
+            </li>
+            <li data-target="reviews-section">
+                <i class="fas fa-comments"></i>
+                <span>Отзывы пользователей</span>
+            </li>
+        </ul>
+    </aside>
+    <div class="admin-content">
+        <section id="books-section" class="admin-section">
+            <h2>Список книг</h2>
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .Books }}
+                <tr>
+                    <td>{{ .ID }}</td>
+                    <td>{{ .Title }}</td>
+                    <td>{{ .Author }}</td>
+                    <td>
+                        <form action="/admin/book/delete" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="{{ .ID }}">
+                            <button type="submit" class="btn">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {{ end }}
+                </tbody>
+            </table>
+        </section>
 
-    <!-- Секция со списком книг -->
-    <section class="admin-section">
-        <h2>Список книг</h2>
-        <table class="admin-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Название</th>
-                <th>Автор</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{ range .Books }}
-            <tr>
-                <td>{{ .ID }}</td>
-                <td>{{ .Title }}</td>
-                <td>{{ .Author }}</td>
-                <td>
-                    <form action="/admin/book/delete" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="{{ .ID }}">
-                        <button type="submit" class="btn">Удалить</button>
-                    </form>
-                </td>
-            </tr>
-            {{ end }}
-            </tbody>
-        </table>
-    </section>
+        <section id="add-book-section" class="admin-section" style="display:none;">
+            <h2>Добавить новую книгу</h2>
+            <form action="/admin/book/add" method="post" class="admin-form">
+                <div class="form-group">
+                    <label for="title">Название</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Автор</label>
+                    <input type="text" name="author" id="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Категория</label>
+                    <select name="category" id="category" required>
+                        {{ range .Categories }}
+                        <option value="{{ .ID }}">{{ .Name }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Цена</label>
+                    <input type="number" step="0.01" name="price" id="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Краткое описание</label>
+                    <textarea name="description" id="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="detailed_description">Детальное описание</label>
+                    <textarea name="detailed_description" id="detailed_description" required></textarea>
+                </div>
+                <!-- Дополнительные поля: publish_date, image_url и т.д. -->
+                <button type="submit" class="btn submit-btn">Добавить книгу</button>
+            </form>
+        </section>
 
-    <!-- Форма добавления новой книги -->
-    <section class="admin-section">
-        <h2>Добавить новую книгу</h2>
-        <form action="/admin/book/add" method="post" class="admin-form">
-            <div class="form-group">
-                <label for="title">Название</label>
-                <input type="text" name="title" id="title" required>
-            </div>
-            <div class="form-group">
-                <label for="author">Автор</label>
-                <input type="text" name="author" id="author" required>
-            </div>
-            <div class="form-group">
-                <label for="category">Категория</label>
-                <input type="text" name="category" id="category" required>
-            </div>
-            <div class="form-group">
-                <label for="price">Цена</label>
-                <input type="number" step="0.01" name="price" id="price" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Краткое описание</label>
-                <textarea name="description" id="description" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="detailed_description">Детальное описание</label>
-                <textarea name="detailed_description" id="detailed_description" required></textarea>
-            </div>
-            <!-- Дополнительные поля: publish_date, image_url и т.д. -->
-            <button type="submit" class="btn submit-btn">Добавить книгу</button>
-        </form>
-    </section>
-
-    <!-- Секция со списком отзывов -->
-    <section class="admin-section">
-        <h2>Отзывы пользователей</h2>
-        <table class="admin-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Пользователь</th>
-                <th>Книга</th>
-                <th>Оценка</th>
-                <th>Комментарий</th>
-                <th>Дата</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{ range .Reviews }}
-            <tr>
-                <td>{{ .ReviewID }}</td>
-                <td>{{ .Username }}</td>
-                <td>{{ .BookTitle }}</td>
-                <td>{{ .Rating }}</td>
-                <td>{{ .Comment }}</td>
-                <td>{{ .Created.Format "02.01.2006" }}</td>
-                <td>
-                    <form action="/admin/review/delete" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="{{ .ReviewID }}">
-                        <button type="submit" class="btn">Удалить</button>
-                    </form>
-                </td>
-            </tr>
-            {{ end }}
-            </tbody>
-        </table>
-    </section>
+        <section id="reviews-section" class="admin-section" style="display:none;">
+            <h2>Отзывы пользователей</h2>
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Пользователь</th>
+                    <th>Книга</th>
+                    <th>Оценка</th>
+                    <th>Комментарий</th>
+                    <th>Дата</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .Reviews }}
+                <tr>
+                    <td>{{ .ReviewID }}</td>
+                    <td>{{ .Username }}</td>
+                    <td>{{ .BookTitle }}</td>
+                    <td>{{ .Rating }}</td>
+                    <td>{{ .Comment }}</td>
+                    <td>{{ .Created.Format "02.01.2006" }}</td>
+                    <td>
+                        <form action="/admin/review/delete" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="{{ .ReviewID }}">
+                            <button type="submit" class="btn">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {{ end }}
+                </tbody>
+            </table>
+        </section>
+    </div>
 </div>
 {{ end }}

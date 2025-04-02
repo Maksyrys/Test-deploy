@@ -1,0 +1,110 @@
+{{ define "title" }}Профиль - BookStore{{ end }}
+{{ define "content" }}
+<main class="main-content">
+    <div class="container profile-page animated-section">
+        <!-- Заголовок страницы -->
+        <h1 class="profile-page__title">Мой профиль</h1>
+
+        <!-- Макет из двух колонок: Сайдбар (аватар, меню) + Основной контент -->
+        <div class="profile-page__layout">
+            <!-- Левая колонка (сайдбар) -->
+            <aside class="profile-sidebar">
+                <!-- Имя пользователя / ник -->
+                <div class="profile-username">{{ .CurrentUser.Username }}</div>
+
+                <!-- Роль пользователя -->
+                {{ if eq .CurrentUser.Role "admin" }}
+                <span class="profile-role admin-role">Администратор</span>
+                {{ else }}
+                <span class="profile-role user-role">Пользователь</span>
+                {{ end }}
+
+                <!-- Меню в профиле -->
+                <nav class="profile-nav">
+                    <ul>
+                        <li><a href="/profile" class="active">Профиль</a></li>
+                        <li><a href="#">Мои заказы</a></li>
+                        <li><a href="/favorites">Избранное</a></li>
+                        <li><a href="/cart">Корзина</a></li>
+                        <!-- Ссылка на админ-панель, если роль admin -->
+                        {{ if eq .CurrentUser.Role "admin" }}
+                        <li><a href="/admin">Админ-панель</a></li>
+                        {{ end }}
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Правая колонка (основной контент) -->
+            <section class="profile-content">
+                <!-- Карточка с основной информацией -->
+                <div class="profile-info-card">
+                    <h2>Основная информация</h2>
+                    <div class="profile-info-row">
+                        <span class="label">Email:</span>
+                        <span>{{ .CurrentUser.Email }}</span>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="label">Имя:</span>
+                        <span>{{ if .CurrentUser.Firstname }}{{.CurrentUser.Firstname}}{{else}}-{{end}}</span>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="label">Фамилия:</span>
+                        <span>{{ if .CurrentUser.Lastname }}{{.CurrentUser.Lastname}}{{else}}-{{end}}</span>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="label">Телефон:</span>
+                        <span>{{ if .CurrentUser.Phone }}{{.CurrentUser.Phone}}{{else}}-{{end}}</span>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="label">Дата регистрации:</span>
+                        <span>{{ .CurrentUser.CreatedAt.Format "02.01.2006"}}</span>
+                    </div>
+                    <!-- Кнопки -->
+                    <div class="profile-actions">
+                        <a href="/profile/edit" class="btn">Редактировать профиль</a>
+                    </div>
+                </div>
+
+                <!-- Карточка со статистикой -->
+                <div class="profile-stats-card">
+                    <h2>Ваша статистика</h2>
+                    <div class="profile-stats-grid">
+                        <div class="stats-item">
+                            <span class="stats-label">Заказов</span>
+                        </div>
+                        <div class="stats-item">
+                            <span class="stats-value">{{.FavoritesCount}}</span>
+                            <span class="stats-label">Избранных книг</span>
+                        </div>
+                        <div class="stats-item">
+                            <span class="stats-value">{{.CartCount}}</span>
+                            <span class="stats-label">В корзине</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка с отзывами пользователя -->
+                <div class="profile-reviews-card">
+                    <h2>Ваши отзывы</h2>
+                    {{ if .UserReviews }}
+                    <div class="profile-reviews-list">
+                        {{ range .UserReviews }}
+                        <div class="profile-review-item">
+                            <div class="review-header">
+                                <a href="/book/{{ .BookID }}" class="review-book-title">{{ .BookTitle }}</a>
+                                <div class="stars-display" data-rating="{{ .Rating }}"></div>
+                            </div>
+                            <p class="review-comment">{{ .Comment }}</p>
+                            <span class="review-date">{{ .Created.Format "02.01.2006" }}</span>
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ else }}
+                    <p class="no-reviews-text">Вы ещё не написали ни одного отзыва.</p>
+                    {{ end }}
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+{{ end }}

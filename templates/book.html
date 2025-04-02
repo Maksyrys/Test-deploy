@@ -1,105 +1,101 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8" />
-    <title>{{.Title}} - Детальная страница</title>
-    <link rel="stylesheet" href="/static/css/styles.css" />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-            integrity="sha512-..."
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-</head>
-<body>
-<header class="header">
-    <div class="header__logo">
-        <a href="/">BookStore</a>
-    </div>
-    <div class="header__search">
-        <input type="text" placeholder="Поиск по книгам..." />
-        <button>Найти</button>
-    </div>
-    <nav class="header__nav">
-        <a href="#" class="nav-item">
-            <i class="fas fa-user"></i>
-            <span>Профиль</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-clipboard-list"></i>
-            <span>Заказы</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-heart"></i>
-            <span>Избранное</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Корзина</span>
-        </a>
-    </nav>
-</header>
-
-<main class="main-content">
-    <div class="container">
-
-        <div class="book-detail">
-            <div class="book-detail__cover-wrapper">
-                <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-detail__cover"/>
-            </div>
-
+{{ define "title" }}{{.Book.Title}}{{ end }}
+{{ define "content" }}
+<div class="container">
+    <div class="book-detail">
+        <div class="book-detail__cover-wrapper">
+            <img src="{{.Book.ImageURL}}" alt="{{.Book.Title}}" class="book-detail__cover"/>
+        </div>
+        <div class="book-detail__content">
             <div class="book-detail__info">
-                <h1>{{.Title}}</h1>
-                <p class="book-detail__short-description">{{.Description}}</p>
-                <!-- Кнопка для плавного перехода к секции полного описания -->
+                <h1>{{.Book.Title}}</h1>
+                <p class="book-detail__short-description">{{.Book.Description}}</p>
                 <button class="btn btn-full-description">Полное описание</button>
                 <div class="book-detail__characteristics">
-                    <p><strong>Автор:</strong> {{.Author}}</p>
-                    <p><strong>Категория:</strong> {{.Category}}</p>
+                    <p><strong>Автор:</strong> {{.Book.Author}}</p>
+                    <p><strong>Категория:</strong> {{.Book.Category}}</p>
                 </div>
-                <!-- Кнопка для плавного перехода к секции характеристик -->
                 <button class="btn btn-all-characteristics">Все характеристики</button>
-                <div class="book-detail__purchase">
-                    <div class="book-detail__price">{{printf "%.2f" .Price}} ₽</div>
-                    <button class="btn btn-add-cart">Добавить в корзину</button>
-                </div>
             </div>
-        </div>
-
-        <!-- Новые секции -->
-        <div class="book-additional-info">
-            <section class="books-by-author">
-                <h2>Книги от автора</h2>
-                <div class="books">
-                    <div class="book-card">
-                        <img src="/static/images/sample-book.jpg" alt="Название книги" class="book-card__cover">
-                    </div>
-                </div>
-            </section>
-            <!-- Добавляем идентификатор для секции полного описания -->
-            <div class="book-detail-extra" id="full-description-section">
-                <h2>Детальная информация</h2>
-                <p>{{.DetailedDescription}}</p>
-            </div>
-            <!-- Добавляем идентификатор для секции характеристик -->
-            <section class="book-characteristics-detailed" id="characteristics-section">
-                <h2>Характеристики</h2>
-                <p>Подробные характеристики книги (формат, количество страниц, издательство и т.д.)</p>
-            </section>
-            <section class="book-reviews animate-on-scroll">
-                <h2>Отзывы</h2>
-                <p>Здесь будут отображаться отзывы читателей.</p>
-            </section>
+            <aside class="book-detail__sidebar">
+                <div class="book-detail__price">{{printf "%.2f" .Book.Price}} ₽</div>
+                <button class="btn btn-add-cart" data-book-id="{{.Book.ID}}" {{if .InCart}}data-in-cart="true"{{end}}>
+                    {{if .InCart}}Перейти в корзину{{else}}Добавить в корзину{{end}}
+                </button>
+                <button
+                        class="btn-favorite {{ if .IsFavorite }}active{{ end }}"
+                        data-book-id="{{ .Book.ID }}">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </aside>
         </div>
     </div>
-</main>
 
-<footer class="footer">
-    <p>© 2025 BookStore. Все права защищены.</p>
-</footer>
+    <div class="book-additional-info">
+        <section class="books-by-author">
+            <h2>Книги от автора</h2>
+            <div class="books">
+                {{ range $book := .AuthorBooks }}
+                {{ if ne $book.ID $.Book.ID }}
+                <a href="/book/{{ $book.ID }}" class="book-card">
+                    <img src="{{.ImageURL}}" alt="{{.Title}}" class="book-card__cover" />
+                    <div class="book-card__title">{{ $book.Title }}</div>
+                    <div class="book-card__price">Цена: {{ printf "%.2f" $book.Price }} ₽</div>
+                </a>
+                {{ end }}
+                {{ end }}
+            </div>
+        </section>
 
-<!-- Подключение внешнего JavaScript-файла -->
-<script src="/static/js/script.js"></script>
-</body>
-</html>
+        <div class="book-detail-extra animate-on-scroll" id="full-description-section">
+            <h2>Детальная информация</h2>
+            <p>{{.Book.DetailedDescription}}</p>
+        </div>
+
+        <section class="book-characteristics-detailed animate-on-scroll" id="characteristics-section">
+            <h2>Характеристики</h2>
+            <p>Подробные характеристики книги (формат, количество страниц, издательство и т.д.)</p>
+        </section>
+
+        <section class="book-reviews animate-on-scroll">
+            <h2>Отзывы читателей</h2>
+
+            {{ if .CurrentUser }}
+            {{ if not .UserReviewExists }}
+            <form class="review-form" id="review-form">
+                <input type="hidden" id="review-book-id" value="{{ .Book.ID }}">
+                <div class="stars-rating" id="stars-rating">
+                    <span data-value="1">★</span>
+                    <span data-value="2">★</span>
+                    <span data-value="3">★</span>
+                    <span data-value="4">★</span>
+                    <span data-value="5">★</span>
+                </div>
+                <textarea id="review-comment" placeholder="Поделитесь впечатлениями..." required></textarea>
+                <button type="submit" class="btn">Опубликовать отзыв</button>
+            </form>
+            {{ else }}
+            <p class="already-reviewed">Спасибо! Ваш отзыв уже опубликован.</p>
+            {{ end }}
+            {{ else }}
+            <p class="auth-required"><a href="#" id="">Авторизуйтесь</a>, чтобы оставить отзыв.</p>
+            {{ end }}
+
+            <div class="reviews-list">
+                {{ range .BookReviews }}
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="review-user-info">
+                            <span class="review-user-avatar">{{ slice .Username 0 1 }}</span>
+                            <strong>{{ .Username }}</strong>
+                        </div>
+                        <div class="stars-display" data-rating="{{ .Rating }}"></div>
+                    </div>
+                    <p class="review-card-comment">{{ .Comment }}</p>
+                    <span class="review-card-date">{{ .Created.Format "02.01.2006" }}</span>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+    </div>
+</div>
+{{ end }}

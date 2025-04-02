@@ -1,0 +1,36 @@
+{{ define "title" }}Избранное - BookStore{{ end }}
+{{ define "content" }}
+<main class="main-content">
+    <div class="container favorites-container">
+        <h2>Избранное</h2>
+        {{ if .Favorites }}
+        <div class="books">
+            {{ range .Favorites }}
+            <div class="book-card" style="position: relative;">
+                <!-- Кнопка «Удалить из избранного» (иконка сердца в углу) -->
+                <div class="favorite-overlay">
+                    <button class="btn-favorite active" data-book-id="{{ .ID }}" title="Удалить из избранного">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+
+                <!-- Переход на страницу книги -->
+                <a href="/book/{{ .ID }}">
+                    <div class="book-card__cover-wrapper">
+                        <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="book-card__cover" />
+                    </div>
+                    <div class="book-card__info">
+                        <div class="book-card__title">{{ .Title }}</div>
+                        <div class="book-card__author">Автор: {{ .Author }}</div>
+                        <div class="book-card__price">Цена: {{ printf "%.2f" .Price }} ₽</div>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
+        </div>
+        {{ else }}
+        <p class="no-reviews-text">У вас пока нет избранных книг.</p>
+        {{ end }}
+    </div>
+</main>
+{{ end }}

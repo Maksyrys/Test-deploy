@@ -1,0 +1,78 @@
+{{ define "title" }}Корзина - BookStore{{ end }}
+{{ define "content" }}
+<main class="main-content">
+    <div class="container cart-container">
+        <div class="cart-left">
+            <h1 class="cart-page-title">Ваша корзина</h1>
+
+            {{ if .Items }}
+            <div class="cart-items-list">
+                {{ range .Items }}
+                <div class="cart-item-row" data-book-id="{{ .Book.ID }}">
+                    <div class="cart-item-image">
+                        <a href="/book/{{ .Book.ID }}">
+                            <img src="{{ .Book.ImageURL }}" alt="{{ .Book.Title }}">
+                        </a>
+                    </div>
+                    <div class="cart-item-info">
+                        <a href="/book/{{ .Book.ID }}" class="cart-item-title">
+                            <h4>{{ .Book.Title }}</h4>
+                        </a>
+                        <p class="cart-item-author">Автор: {{ .Book.Author }}</p>
+                        <p class="item-price">Цена: {{ printf "%.2f" .Book.Price }} ₽</p>
+
+                        <div class="cart-item-controls">
+                            <button class="btn btn-decrease" data-book-id="{{ .Book.ID }}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+
+                            <span class="item-quantity">{{ .Quantity }}</span>
+
+                            <button class="btn btn-increase" data-book-id="{{ .Book.ID }}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+
+                            <span class="cart-item-total">{{ printf "%.2f" .Total }} ₽</span>
+                        </div>
+                    </div>
+                    <div class="cart-item-remove">
+                        <button class="btn btn-remove-item" data-book-id="{{ .Book.ID }}" title="Удалить из корзины">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+            {{ else }}
+            <div class="empty-cart-message">
+                <p>Ваша корзина пуста.</p>
+                <a href="/catalog" class="btn btn-cta">Перейти в каталог</a>
+            </div>
+            {{ end }}
+        </div>
+
+        <div class="cart-summary">
+            <h2>Итоговая информация</h2>
+            <div class="cart-summary-details">
+                <p><strong>Всего товаров:</strong>
+                    <span id="total-quantity">{{ .TotalQuantity }}</span> шт.
+                </p>
+                <p><strong>Общая стоимость:</strong>
+                    <span id="grand-total">{{ printf "%.2f" .GrandTotal }} ₽</span>
+                </p>
+            </div>
+
+            <!-- Допустим, выводим "бесплатная доставка" как пример украшения -->
+            <div class="cart-delivery-info">
+                <i class="fas fa-truck"></i>
+                <span>Бесплатная доставка от 3000 ₽</span>
+            </div>
+
+            <button class="btn btn-checkout">Оформить заказ</button>
+            <a href="/catalog" class="btn btn-secondary btn-continue-shopping">
+                <i class="fas fa-arrow-left"></i> Продолжить покупки
+            </a>
+        </div>
+    </div>
+</main>
+{{ end }}

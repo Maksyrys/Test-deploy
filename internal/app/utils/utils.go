@@ -5,13 +5,7 @@ import (
 	"bytes"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
-	"io"
-	"mime/multipart"
 	"net/http"
-	"os"
-	"path/filepath"
-	"strconv"
-	"time"
 )
 
 type contextKey string
@@ -40,16 +34,6 @@ func CheckPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
-func SetUserSessionCookie(w http.ResponseWriter, userID int) {
-	cookie := http.Cookie{
-		Name:     "session_user_id",
-		Value:    strconv.Itoa(userID),
-		Path:     "/",
-		HttpOnly: true,
-	}
-	http.SetCookie(w, &cookie)
-}
-
 func Render(w http.ResponseWriter, templateFile string, data interface{}) {
 	tmpl := template.Must(template.ParseFiles(
 		"../../templates/layout.html",
@@ -68,26 +52,4 @@ func Render(w http.ResponseWriter, templateFile string, data interface{}) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	_, _ = buf.WriteTo(w)
-}
-
-func SaveUploadedFile(file multipart.File, header *multipart.FileHeader) (string, error) {
-	fileExt := filepath.Ext(header.Filename)
-	fileName := strconv.FormatInt(time.Now().UnixNano(), 10) + fileExt
-
-	filePath := filepath.Join("static", "uploads", fileName)
-	dest, err := os.Create(filePath)
-	if err != nil {
-		return "", err
-	}
-	defer dest.Close()
-
-	_, err = io.Copy(dest, file)
-	if err != nil {
-		return "", err
-	}
-
-	// Исправляем слеши:
-	webFilePath := "/" + filepath.ToSlash(filePath)
-
-	return webFilePath, nil
 }

@@ -1,50 +1,60 @@
 package app
 
 import (
+	"BookStore/internal/app/handlers"
+	"BookStore/internal/app/middlewares"
+	"BookStore/internal/app/services"
+	"BookStore/internal/app/utils"
 	"BookStore/internal/config"
 	"BookStore/internal/repository"
 	"BookStore/internal/repository/postgresql"
 	"database/sql"
 	"fmt"
-	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"log"
-	"net/http"
 )
 
 type App struct {
-	rep *repository.Repository
+	rep     *repository.Repository
+	handler *handlers.Handler
+	middle  *middlewares.Middleware
+	cfg     *config.Config
+	Store   sessions.Store
 }
 
-func NewApp(rep *repository.Repository) *App {
-	return &App{rep: rep}
+func NewApp(rep *repository.Repository, cfg *config.Config) *App {
+	userService := services.NewUserService(rep)
+	bookService := services.NewBookService(rep)
+	cartService := services.NewCartService(rep)
+	catalogService := services.NewCatalogService(rep)
+	favoriteService := services.NewFavoriteService(rep)
+	reviewService := services.NewReviewService(rep)
+	store := sessions.NewCookieStore([]byte(cfg.Key))
+
+	return &App{rep: rep,
+		handler: handlers.NewHandler(rep, userService, bookService, cartService, catalogService, favoriteService, reviewService, store),
+		middle:  middlewares.NewMiddleware(rep, store),
+		cfg:     cfg,
+		Store:   store,
+	}
 }
 
 func InitApp(db *sql.DB, cfg *config.Config) (*App, error) {
 	rep := repository.NewRepository(db)
-	app := NewApp(rep)
+	app := NewApp(rep, cfg)
 
-	router := mux.NewRouter()
-
-	router.Use(loggingMiddleware)
-	router.Use(recoveryMiddleware)
-	router.Use(corsMiddleware)
-	router.Use(authMiddleware)
-
-	fs := http.FileServer(http.Dir(cfg.Dir))
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
-
-	router.HandleFunc("/", app.indexHandler).Methods("GET")
-	router.HandleFunc("/book/{id}", app.bookHandler).Methods("GET")
-
-	log.Println("Сервер запущен на порту :8080")
-	if err := http.ListenAndServe(":8080", router); err != nil {
-		log.Fatal(err)
-	}
+	InitRouter(app, cfg)
 
 	return app, nil
 }
 
 func Run() {
+
+	if err := utils.InitLogger(); err != nil {
+		panic("Не удалось инициализировать логгер: " + err.Error())
+	}
+	defer utils.Logger.Sync()
+
 	cfg := config.NewConfig()
 
 	db, err := InitDB(cfg)
