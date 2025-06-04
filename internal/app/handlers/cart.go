@@ -36,7 +36,7 @@ func (h *Handler) CartHandler(w http.ResponseWriter, r *http.Request) {
 		TotalQuantity: details.TotalQuantity,
 	}
 
-	utils.Render(w, "../../templates/cart.html", data)
+	utils.Render(w, "./templates/cart.html", data)
 }
 
 func (h *Handler) AddToCartHandler(w http.ResponseWriter, r *http.Request) {

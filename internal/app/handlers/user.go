@@ -49,7 +49,7 @@ func (h *Handler) ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		CartCount:      cartCount,
 	}
 
-	utils.Render(w, "../../templates/profile.html", data)
+	utils.Render(w, "./templates/profile.html", data)
 }
 
 func (h *Handler) EditProfileHandler(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +86,7 @@ func (h *Handler) EditProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		CurrentUser: user,
 	}
-	utils.Render(w, "../../templates/edit_profile.html", data)
+	utils.Render(w, "./templates/edit_profile.html", data)
 }
 
 func (h *Handler) RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -141,7 +141,6 @@ func (h *Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	email := r.FormValue("login-email")
 	password := r.FormValue("login-password")
-	// Здесь можно добавить структурированное логирование попытки входа
 	utils.Logger.Info("Попытка входа", zap.String("email", email))
 	user, err := h.userService.LoginUser(email, password)
 	if err != nil {
@@ -150,7 +149,6 @@ func (h *Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Создаём / получаем сессию
 	session, err := h.store.Get(r, "session")
 	if err != nil {
 		appErr := utils.NewAppError("Ошибка при получении сессии", http.StatusInternalServerError, err)
@@ -158,19 +156,13 @@ func (h *Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Сохраняем userID в сессии
 	session.Values["user_id"] = user.UserId
-
-	// Дополнительно можете настроить время жизни, флаги безопасности и т.д.
-	// Пример:
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   60 * 60 * 8, // 8 часов
+		MaxAge:   60 * 60 * 8,
 		HttpOnly: true,
-		// Secure:   true,       // Включайте, если используете https
 	}
 
-	// Сохраняем изменения в cookie
 	if err = session.Save(r, w); err != nil {
 		appErr := utils.NewAppError("Не удалось сохранить сессию", http.StatusInternalServerError, err)
 		utils.RespondWithError(w, appErr)
