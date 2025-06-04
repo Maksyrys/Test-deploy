@@ -322,23 +322,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', async function (e) {
+        logoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            try {
-                // По умолчанию fetch следует 30x-редиректам, но в итоге
-                // вы просто получите конечный ответ (HTML главной страницы).
-
-                const response = await fetch('/logout', { method: 'GET' });
-                if (response.ok) {
-                    // Здесь вместо reload на ту же страницу:
-                    window.location.href = '/';
-                } else {
-                    const errorText = await response.text();
-                    showGlobalError("Ошибка при выходе: " + errorText);
-                }
-            } catch (err) {
-                console.error('Ошибка:', err);
-            }
+            window.location.href = '/logout'; // Просто перенаправляем — сервер всё сам сделает
         });
     }
 

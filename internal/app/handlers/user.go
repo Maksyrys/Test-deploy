@@ -173,9 +173,14 @@ func (h *Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := h.store.Get(r, "session")
-	session.Options.MaxAge = -1 // Сбрасываем сессию
-	_ = session.Save(r, w)
-
+	session, err := h.store.Get(r, "session")
+	if err == nil {
+		session.Options = &sessions.Options{
+			Path:     "/",
+			MaxAge:   -1,
+			HttpOnly: true,
+		}
+		_ = session.Save(r, w)
+	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
