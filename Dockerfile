@@ -17,7 +17,7 @@ FROM alpine:3.20
 WORKDIR /app
 
 COPY --from=builder /app/bookstore .
-COPY --from=builder /app/static ./static  # если каталог static существует
+COPY --from=builder /app/static ./static
 
 ENV PORT=8080 APP_ENV=production
 EXPOSE 8080
