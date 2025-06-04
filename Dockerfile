@@ -1,20 +1,23 @@
 # ---------- build stage ----------
-# берём актуальный релиз Go 1.23.x
 FROM golang:1.23-alpine AS builder
 WORKDIR /app
 
+# go.mod и go.sum
 COPY go.mod go.sum ./
 RUN go mod download
 
+# остальной код
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o bookstore ./cmd/bookstore
+
+# собираем бинарь (ключевой путь!)
+RUN CGO_ENABLED=0 GOOS=linux go build -o bookstore ./cmd/app
 
 # ---------- run stage ----------
 FROM alpine:3.20
 WORKDIR /app
 
 COPY --from=builder /app/bookstore .
-COPY --from=builder /app/static ./static   # если у вас есть этот каталог
+COPY --from=builder /app/static ./static  # если каталог static существует
 
 ENV PORT=8080 APP_ENV=production
 EXPOSE 8080
