@@ -26,6 +26,8 @@ services:
     networks: [backend]
 
   app:
+    volumes:
+      - static-files:/app/static
     build:
       context: .
       dockerfile: Dockerfile
