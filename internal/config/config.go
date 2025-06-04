@@ -2,7 +2,7 @@ package config
 
 const (
 	dir      = "../../static"
-	host     = "localhost"
+	host     = "db"
 	port     = "5432"
 	dbname   = "bookstore"
 	user     = "postgres"
