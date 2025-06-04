@@ -13,7 +13,7 @@ services:
     networks: [backend]
 
   migrate:
-    image: migrate/migrate:v4.17
+    image: migrate/migrate:v4.18.0-alpine
     profiles: ["migrations"]   # будет запускаться только вручную: docker compose --profile migrations up
     volumes:
       - ./migrations:/migrations
