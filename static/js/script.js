@@ -294,7 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: formDataObj,
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
-                    }
+                    },
+                    credentials: 'same-origin'  // Вот тут!
                 });
 
                 if (!response.ok) {
