@@ -7,14 +7,12 @@
         <div class="books">
             {{ range .Favorites }}
             <div class="book-card" style="position: relative;">
-                <!-- Кнопка «Удалить из избранного» (иконка сердца в углу) -->
                 <div class="favorite-overlay">
                     <button class="btn-favorite active" data-book-id="{{ .ID }}" title="Удалить из избранного">
                         <i class="fas fa-heart"></i>
                     </button>
                 </div>
 
-                <!-- Переход на страницу книги -->
                 <a href="/book/{{ .ID }}">
                     <div class="book-card__cover-wrapper">
                         <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="book-card__cover" />

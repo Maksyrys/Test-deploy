@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    /**
-     * Универсальная функция для вывода ошибки в контейнер с указанным id
-     * Если контейнера на странице нет, просто выводим ошибку в консоль (fallback).
-     */
     function showError(containerId, message) {
         const el = document.getElementById(containerId);
         if (el) {
@@ -13,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /** Скрыть ошибку в конкретном контейнере (например, при повторных запросах) */
     function hideError(containerId) {
         const el = document.getElementById(containerId);
         if (el) {
@@ -22,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /** "Глобальный" вывод ошибки, если нет особого контейнера для конкретной операции */
     function showGlobalError(message) {
         showError('globalError', message);
     }
@@ -49,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const quantityEl = item.querySelector('.item-quantity');
             const quantity = parseInt(quantityEl.innerText);
 
-            // Из текста цены убираем всё лишнее
             const priceText = item.querySelector('.item-price').innerText
                 .replace('Цена:', '')
                 .replace('₽', '')
@@ -58,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const rowTotal = quantity * price;
 
-            // Если есть ячейка с суммой по этой позиции, обновим
             const rowTotalEl = item.querySelector('.cart-item-total');
             if (rowTotalEl) {
                 rowTotalEl.innerText = rowTotal.toFixed(2) + ' ₽';
@@ -137,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (!response.ok) {
                     if (response.status === 401) {
-                        // Если не авторизован – предлагаем логин
                         showLoginPrompt();
                         return;
                     } else {
@@ -161,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Если пользователь кликает по кнопке, но не авторизован (cart, favorites)
     const unauthCart = document.getElementById('unauthCart');
     if (unauthCart) {
         unauthCart.addEventListener('click', function (e) {
@@ -237,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            // Скрываем предыдущую ошибку (если была)
             hideError('loginError');
 
             const formDataObj = new URLSearchParams(new FormData(this));
@@ -254,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    showError('loginError', errorText);  // Выводим ошибку в контейнер формы логина
+                    showError('loginError', errorText);
                     return;
                 }
 
@@ -332,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------
     //   Корзина
     // ----------------------
-    // Удаление товара из корзины
     document.querySelectorAll('.btn-remove-item').forEach(btn => {
         btn.addEventListener('click', async function () {
             const bookId = this.getAttribute('data-book-id');
@@ -483,7 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ----------------------
     //   Модальное окно «Войти или Зарегистрироваться»
-    //   (showLoginPrompt) – при 401 ошибках
     // ----------------------
     function showLoginPrompt() {
         const modalContainer = document.createElement('div');
@@ -544,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Отправка формы отзыва
             reviewForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
-                hideError('reviewError'); // Предполагаем, что есть контейнер с id="reviewError"
+                hideError('reviewError');
 
                 const comment = (commentEl.value || '').trim();
                 if (!currentRating) {
@@ -582,9 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ----------------------
-    //   Отображение звёзд рейтинга (если есть)
-    // ----------------------
     const starsRating = document.querySelectorAll('.stars-rating span');
     let currentRating = 0;
     starsRating.forEach(star => {
@@ -596,7 +580,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Отрисовка статических звёзд, напр. на карточке, где уже есть рейтинг
     document.querySelectorAll('.stars-display').forEach(el => {
         const rating = parseInt(el.dataset.rating);
         // Простейший вариант: заполняем часть звёзд "★", а остальные "☆"
@@ -607,16 +590,13 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.admin-sidebar ul li').forEach(item => {
         item.addEventListener('click', () => {
-            // Сброс активного класса у всех элементов боковой панели
             document.querySelectorAll('.admin-sidebar ul li').forEach(li => li.classList.remove('active'));
             item.classList.add('active');
 
-            // Скрыть все секции
             document.querySelectorAll('.admin-content .admin-section').forEach(section => {
                 section.style.display = 'none';
             });
 
-            // Показать выбранную секцию
             const target = item.getAttribute('data-target');
             document.getElementById(target).style.display = 'block';
         });

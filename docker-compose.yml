@@ -14,7 +14,7 @@ services:
 
   migrate:
     image: migrate/migrate:v4.18.0
-    profiles: ["migrations"]   # будет запускаться только вручную: docker compose --profile migrations up
+    profiles: ["migrations"]
     volumes:
       - ./migrations:/migrations
     command: [
@@ -44,8 +44,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx/bookstore.conf:/etc/nginx/conf.d/bookstore.conf:ro
-      - ./certs:/etc/letsencrypt             # будет создано certbot’ом
-      - static-files:/var/www/static:ro      # см. ниже
+      - ./certs:/etc/letsencrypt
+      - static-files:/var/www/static:ro
     depends_on: [app]
     networks: [frontend, backend]
 

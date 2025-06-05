@@ -8,5 +8,4 @@ type CartItem struct {
 	BookID     int       `json:"book_id"`
 	Quantity   int       `json:"quantity"`
 	AddedAt    time.Time `json:"added_at"`
-	// можно добавить информацию о книге, если потребуется объединение с таблицей books
 }

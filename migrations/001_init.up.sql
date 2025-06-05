@@ -1,6 +1,3 @@
-/* -----------------------------------------------------------
- * SEQUENCES
- * --------------------------------------------------------- */
 
 CREATE SEQUENCE authors_author_id_seq          AS integer START 1;
 CREATE SEQUENCE categories_category_id_seq     AS integer START 1;
@@ -12,24 +9,17 @@ CREATE SEQUENCE cart_items_cart_item_id_seq    AS integer START 1;
 CREATE SEQUENCE reviews_review_id_seq          AS integer START 1;
 
 
-/* -----------------------------------------------------------
- * TABLES
- * --------------------------------------------------------- */
-
--- -------- authors
 CREATE TABLE authors (
                          author_id  integer      PRIMARY KEY      DEFAULT nextval('authors_author_id_seq'),
                          name       varchar(255) NOT NULL,
                          biography  text
 );
 
--- -------- categories
 CREATE TABLE categories (
                             category_id integer      PRIMARY KEY      DEFAULT nextval('categories_category_id_seq'),
                             name        varchar(100) NOT NULL UNIQUE
 );
 
--- -------- books
 CREATE TABLE books (
                        book_id      integer      PRIMARY KEY      DEFAULT nextval('books_book_id_seq'),
                        title        varchar(255) NOT NULL,
@@ -42,7 +32,6 @@ CREATE TABLE books (
                        detailed_description text
 );
 
--- -------- users
 CREATE TABLE users (
                        user_id    integer       PRIMARY KEY      DEFAULT nextval('users_user_id_seq'),
                        username   varchar(100)  NOT NULL,
@@ -55,7 +44,6 @@ CREATE TABLE users (
                        role       varchar(50)   NOT NULL DEFAULT 'user'
 );
 
--- -------- orders
 CREATE TABLE orders (
                         order_id   integer       PRIMARY KEY      DEFAULT nextval('orders_order_id_seq'),
                         user_id    integer       REFERENCES users(user_id),
@@ -64,7 +52,6 @@ CREATE TABLE orders (
                         status     varchar(50)   NOT NULL
 );
 
--- -------- order_items
 CREATE TABLE order_items (
                              order_item_id integer PRIMARY KEY DEFAULT nextval('order_items_order_item_id_seq'),
                              order_id      integer REFERENCES orders(order_id),
@@ -73,7 +60,6 @@ CREATE TABLE order_items (
                              price         numeric(10,2) NOT NULL
 );
 
--- -------- cart_items
 CREATE TABLE cart_items (
                             cart_item_id integer PRIMARY KEY DEFAULT nextval('cart_items_cart_item_id_seq'),
                             user_id      integer REFERENCES users(user_id) ON DELETE CASCADE,
@@ -82,7 +68,6 @@ CREATE TABLE cart_items (
                             added_at     timestamp     DEFAULT CURRENT_TIMESTAMP
 );
 
--- -------- favorites
 CREATE TABLE favorites (
                            user_id  integer NOT NULL,
                            book_id  integer NOT NULL,
@@ -92,7 +77,6 @@ CREATE TABLE favorites (
                            FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 );
 
--- -------- reviews
 CREATE TABLE reviews (
                          review_id  integer PRIMARY KEY DEFAULT nextval('reviews_review_id_seq'),
                          user_id    integer REFERENCES users(user_id)  ON DELETE CASCADE,
@@ -102,12 +86,4 @@ CREATE TABLE reviews (
                          created_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-
-/* -----------------------------------------------------------
- * OPTIONAL INDEXES (если понадобятся для быстродействия)
- * --------------------------------------------------------- */
--- CREATE INDEX idx_books_author  ON books(author_id);
--- CREATE INDEX idx_books_cat     ON books(category_id);
--- CREATE INDEX idx_reviews_book  ON reviews(book_id);
--- CREATE INDEX idx_cart_user     ON cart_items(user_id);
 

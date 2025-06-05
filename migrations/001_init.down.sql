@@ -1,26 +1,15 @@
-/* -----------------------------------------------------------
- * DROP TABLES (обратный порядок зависимостей)
- * --------------------------------------------------------- */
 
--- таблицы, имеющие внешние ключи на users / books
 DROP TABLE IF EXISTS reviews     CASCADE;
 DROP TABLE IF EXISTS favorites   CASCADE;
 DROP TABLE IF EXISTS cart_items  CASCADE;
 DROP TABLE IF EXISTS order_items CASCADE;
 
--- таблицы, от которых зависело выше
 DROP TABLE IF EXISTS orders      CASCADE;
 DROP TABLE IF EXISTS books       CASCADE;
 
--- базовые справочники
 DROP TABLE IF EXISTS users       CASCADE;
 DROP TABLE IF EXISTS categories  CASCADE;
 DROP TABLE IF EXISTS authors     CASCADE;
-
-
-/* -----------------------------------------------------------
- * DROP SEQUENCES
- * --------------------------------------------------------- */
 
 DROP SEQUENCE IF EXISTS reviews_review_id_seq;
 DROP SEQUENCE IF EXISTS cart_items_cart_item_id_seq;

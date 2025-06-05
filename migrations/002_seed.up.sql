@@ -1,6 +1,4 @@
-/* -----------------------------------------------------------
- * CATEGORIES
- * --------------------------------------------------------- */
+
 INSERT INTO categories (category_id, name) VALUES
                                                (2, 'Классическая литература'),
                                                (3, 'Фантастика / Антиутопия'),
@@ -9,9 +7,6 @@ INSERT INTO categories (category_id, name) VALUES
     ON CONFLICT (category_id) DO NOTHING;
 
 
-/* -----------------------------------------------------------
- * AUTHORS
- * --------------------------------------------------------- */
 INSERT INTO authors (author_id, name, biography) VALUES
                                                      ( 1, 'Лев Толстой',           'Русский писатель, автор «Войны и мира», «Анны Карениной»…'),
                                                      ( 2, 'Фёдор Достоевский',     'Русский писатель, автор «Преступления и наказания»…'),
@@ -34,9 +29,7 @@ INSERT INTO authors (author_id, name, biography) VALUES
     ON CONFLICT (author_id) DO NOTHING;
 
 
-/* -----------------------------------------------------------
- * USERS  (один администратор)
- * --------------------------------------------------------- */
+
 INSERT INTO users (user_id, username, email, phone, password,
                    firstname, lastname, role)
 VALUES
@@ -46,9 +39,6 @@ VALUES
     ON CONFLICT (user_id) DO NOTHING;
 
 
-/* -----------------------------------------------------------
- * BOOKS  (пример — 10 произведений; добавляйте по необходимости)
- * --------------------------------------------------------- */
 INSERT INTO books
 (book_id, title, author_id, category_id, price,
  description, publish_date, image_url, detailed_description)
@@ -104,14 +94,7 @@ VALUES
      'Подробное описание книги «1984»')
     ON CONFLICT (book_id) DO NOTHING;
 
-
-/* -----------------------------------------------------------
- * Синхронизируем последовательности с фактическими id
- * --------------------------------------------------------- */
 SELECT setval('categories_category_id_seq', (SELECT MAX(category_id) FROM categories));
 SELECT setval('authors_author_id_seq',     (SELECT MAX(author_id)    FROM authors));
 SELECT setval('users_user_id_seq',         (SELECT MAX(user_id)      FROM users));
 SELECT setval('books_book_id_seq',         (SELECT MAX(book_id)      FROM books));
-
-/* (добавьте аналогичные setval для orders, order_items, cart_items,
-   reviews — если будете вставлять данные в эти таблицы) */

@@ -15,7 +15,6 @@ func NewUser(db *sql.DB) *User {
 	return &User{db: db}
 }
 
-// CreateUser создаёт новую запись в таблице users
 func (u *User) CreateUser(user models.User) (int, error) {
 	var newUserID int
 	query := `
@@ -30,7 +29,6 @@ func (u *User) CreateUser(user models.User) (int, error) {
 	return newUserID, nil
 }
 
-// GetUserByEmail ищет пользователя по email
 func (u *User) GetUserByEmail(email string) (models.User, error) {
 	var user models.User
 	query := `

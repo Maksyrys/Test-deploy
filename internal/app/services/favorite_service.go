@@ -6,11 +6,8 @@ import (
 )
 
 type FavoriteService interface {
-	// GetFavorites возвращает список избранных книг пользователя.
 	GetFavorites(userID int) ([]models.Book, error)
-	// AddFavorite добавляет книгу в избранное пользователя.
 	AddFavorite(userID, bookID int) error
-	// RemoveFavorite удаляет книгу из избранного пользователя.
 	RemoveFavorite(userID, bookID int) error
 	GetFavoritesCount(userID int) (int, error)
 }

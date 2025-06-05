@@ -2,7 +2,6 @@
 {{ define "content" }}
 <main class="main-content container">
     <div class="catalog-page">
-        <!-- Боковая панель с категориями -->
         <aside class="catalog-sidebar">
             <h2>Категории</h2>
             <ul>
@@ -17,17 +16,13 @@
             </ul>
         </aside>
 
-        <!-- Основной контент каталога -->
         <section class="catalog-content">
-            <!-- (Опционально) Пример панели сортировки -->
             <div class="catalog-toolbar">
                 <span class="toolbar-label">Сортировать по:</span>
                 <button class="toolbar-btn">Новизне</button>
                 <button class="toolbar-btn">Цене</button>
                 <button class="toolbar-btn">Популярности</button>
             </div>
-
-            <!-- Вместо условий просто выводим книги -->
             <div class="category-block">
                 <div class="books">
                     {{ range .Books }}

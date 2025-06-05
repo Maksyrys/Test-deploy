@@ -14,7 +14,6 @@ func NewFavorite(db *sql.DB) *Favorite {
 }
 
 func (f *Favorite) AddFavorite(userID, bookID int) error {
-	// Проверяем, есть ли уже такая запись
 	var exists bool
 	err := f.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM favorites WHERE user_id=$1 AND book_id=$2)", userID, bookID).Scan(&exists)
 	if err != nil {

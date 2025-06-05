@@ -1,20 +1,17 @@
-/* СБРОС ОСНОВНЫХ СТИЛЕЙ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* БАЗОВЫЕ НАСТРОЙКИ */
 html, body {
     height: 100%;
     font-family: 'Inter', Arial, sans-serif;
-    background-color: #F2F3F5; /* более спокойный светлый фон */
+    background-color: #F2F3F5;
     color: #333;
     line-height: 1.6;
 }
 
-/* Обёртка для "прижатия" футера к низу */
 .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -25,7 +22,6 @@ html, body {
     flex: 1;
 }
 
-/* Ссылки */
 a {
     color: inherit;
     text-decoration: none;
@@ -33,7 +29,7 @@ a {
 }
 
 a:hover {
-    color: #5369A7; /* спокойный оттенок темно-голубого при наведении */
+    color: #5369A7;
 }
 
 /* ------------------ Шапка сайта ------------------ */
@@ -52,10 +48,9 @@ a:hover {
 .header__logo a {
     font-size: 24px;
     font-weight: bold;
-    color: #2D3748; /* контрастный для логотипа */
+    color: #2D3748;
 }
 
-/* Поисковая форма в шапке */
 .header__search {
     display: flex;
     align-items: center;
@@ -83,7 +78,6 @@ a:hover {
     background-color: #44578C;
 }
 
-/* Навигация справа */
 .header__nav {
     display: flex;
     align-items: center;
@@ -107,12 +101,11 @@ a:hover {
     margin-right: 5px;
 }
 
-/* Счётчик корзины (badge) */
 .cart-count-badge {
     position: absolute;
     top: -5px;
     right: -10px;
-    background-color: #D64545; /* можно оставить насыщенно-красным */
+    background-color: #D64545;
     color: #fff;
     border-radius: 50%;
     padding: 2px 6px;
@@ -122,7 +115,7 @@ a:hover {
 
 /* ------------------ Футер ------------------ */
 .footer {
-    background-color: #3C496E; /* более тёмный спокойный цвет */
+    background-color: #3C496E;
     color: #fff;
     padding: 5px;
     text-align: center;
@@ -140,7 +133,7 @@ a:hover {
 .promo {
     position: relative;
     min-height: 350px;
-    background: linear-gradient(135deg, #E0E5F0 0%, #C8D0E7 100%); /* спокойный серо-голубой градиент */
+    background: linear-gradient(135deg, #E0E5F0 0%, #C8D0E7 100%);
     margin-bottom: 40px;
     display: flex;
     align-items: center;
@@ -215,7 +208,7 @@ a:hover {
     color: #2D3748;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     transition: transform 0.3s, box-shadow 0.3s;
-    width: 180px; /* Можно подкорректировать под свои нужды */
+    width: 180px;
 }
 
 .book-card:hover {
@@ -225,7 +218,7 @@ a:hover {
 
 .book-card__cover-wrapper {
     width: 100%;
-    height: 240px; /* фиксируем высоту, чтобы карточки были ровнее */
+    height: 240px;
     background-color: #F5F7FA;
     display: flex;
     align-items: center;
@@ -325,7 +318,6 @@ a:hover {
     margin-bottom: 20px;
 }
 
-/* Кнопки */
 .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -350,7 +342,6 @@ a:hover {
     background-color: #A2A8B9;
 }
 
-/* Кнопка "В избранное" */
 .btn-favorite {
     background: none;
     border: none;
@@ -400,10 +391,9 @@ a:hover {
     transform: translateY(0);
 }
 
-/* Плавное появление для секций */
 .animated-section {
     animation: fadeUp 0.6s ease-out forwards;
-    opacity: 0; /* изначально скрыто для анимации */
+    opacity: 0;
 }
 
 @keyframes fadeUp {
@@ -434,13 +424,11 @@ a:hover {
     text-align: center;
 }
 
-/* Макет: Сайдбар (слева) + Контент (справа) */
 .profile-page__layout {
     display: flex;
     gap: 30px;
 }
 
-/* Сайдбар */
 .profile-sidebar {
     width: 250px;
     background-color: #F7FAFC;
@@ -470,7 +458,6 @@ a:hover {
     margin-bottom: 5px;
 }
 
-/* Роль (админ / пользователь) */
 .profile-role {
     display: inline-block;
     padding: 4px 8px;
@@ -480,10 +467,10 @@ a:hover {
     color: #fff;
 }
 .admin-role {
-    background-color: #D64545; /* красный для администратора */
+    background-color: #D64545;
 }
 .user-role {
-    background-color: #5369A7; /* основной цвет */
+    background-color: #5369A7;
 }
 
 .profile-nav ul {
@@ -514,7 +501,6 @@ a:hover {
     color: #fff;
 }
 
-/* Правая колонка (контент) */
 .profile-content {
     flex: 1;
     display: flex;
@@ -522,7 +508,6 @@ a:hover {
     gap: 20px;
 }
 
-/* Карточка основной информации */
 .profile-info-card {
     background-color: #fff;
     border-radius: 8px;
@@ -558,7 +543,6 @@ a:hover {
     gap: 10px;
 }
 
-/* Карточка со статистикой */
 .profile-stats-card {
     background-color: #fff;
     border-radius: 8px;
@@ -1064,7 +1048,6 @@ a:hover {
     color: #2D3748;
 }
 
-/* Пример "панели инструментов" (сортировка) */
 .catalog-toolbar {
     display: flex;
     align-items: center;

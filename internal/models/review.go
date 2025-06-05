@@ -6,8 +6,8 @@ type Review struct {
 	ReviewID  int
 	UserID    int
 	BookID    int
-	Username  string // Имя пользователя для отображения
-	BookTitle string // Название книги для удобства
+	Username  string
+	BookTitle string
 	Rating    int
 	Comment   string
 	Created   time.Time

@@ -2,31 +2,23 @@
 {{ define "content" }}
 <main class="main-content">
     <div class="container profile-page animated-section">
-        <!-- Заголовок страницы -->
         <h1 class="profile-page__title">Мой профиль</h1>
-
-        <!-- Макет из двух колонок: Сайдбар (аватар, меню) + Основной контент -->
         <div class="profile-page__layout">
-            <!-- Левая колонка (сайдбар) -->
             <aside class="profile-sidebar">
-                <!-- Имя пользователя / ник -->
                 <div class="profile-username">{{ .CurrentUser.Username }}</div>
 
-                <!-- Роль пользователя -->
                 {{ if eq .CurrentUser.Role "admin" }}
                 <span class="profile-role admin-role">Администратор</span>
                 {{ else }}
                 <span class="profile-role user-role">Пользователь</span>
                 {{ end }}
 
-                <!-- Меню в профиле -->
                 <nav class="profile-nav">
                     <ul>
                         <li><a href="/profile" class="active">Профиль</a></li>
                         <li><a href="#">Мои заказы</a></li>
                         <li><a href="/favorites">Избранное</a></li>
                         <li><a href="/cart">Корзина</a></li>
-                        <!-- Ссылка на админ-панель, если роль admin -->
                         {{ if eq .CurrentUser.Role "admin" }}
                         <li><a href="/admin">Админ-панель</a></li>
                         {{ end }}
@@ -34,9 +26,7 @@
                 </nav>
             </aside>
 
-            <!-- Правая колонка (основной контент) -->
             <section class="profile-content">
-                <!-- Карточка с основной информацией -->
                 <div class="profile-info-card">
                     <h2>Основная информация</h2>
                     <div class="profile-info-row">
@@ -59,13 +49,11 @@
                         <span class="label">Дата регистрации:</span>
                         <span>{{ .CurrentUser.CreatedAt.Format "02.01.2006"}}</span>
                     </div>
-                    <!-- Кнопки -->
                     <div class="profile-actions">
                         <a href="/profile/edit" class="btn">Редактировать профиль</a>
                     </div>
                 </div>
 
-                <!-- Карточка со статистикой -->
                 <div class="profile-stats-card">
                     <h2>Ваша статистика</h2>
                     <div class="profile-stats-grid">
@@ -83,7 +71,6 @@
                     </div>
                 </div>
 
-                <!-- Карточка с отзывами пользователя -->
                 <div class="profile-reviews-card">
                     <h2>Ваши отзывы</h2>
                     {{ if .UserReviews }}

@@ -66,7 +66,7 @@ func (b *Book) GetBookByID(id int) (models.Book, error) {
             c.name AS category_name,
             b.price, 
             b.description,
-            b.detailed_description,   -- !!! Добавляем
+            b.detailed_description,   
             b.publish_date,
             b.image_url
         FROM books b
@@ -84,7 +84,7 @@ func (b *Book) GetBookByID(id int) (models.Book, error) {
 		&book.Category,
 		&book.Price,
 		&book.Description,
-		&book.DetailedDescription, // считываем
+		&book.DetailedDescription,
 		&book.PublishDate,
 		&book.ImageURL,
 	)
@@ -140,7 +140,6 @@ func (b *Book) GetBooksGroupedByCategoryRandom() (map[string][]models.Book, erro
 			return nil, err
 		}
 
-		// Добавляем книгу в срез в map по ключу = categoryName
 		result[categoryName] = append(result[categoryName], book)
 	}
 
@@ -179,7 +178,7 @@ func (b *Book) GetBooksByGroupedByAuthorRandom() (map[string][]models.Book, erro
 	for rows.Next() {
 		var book models.Book
 		var authorName string
-		var categoryName string // можно оставить для совместимости, даже если не используется в группировке
+		var categoryName string
 
 		err := rows.Scan(
 			&book.ID,
@@ -207,7 +206,6 @@ func (b *Book) GetBooksByGroupedByAuthorRandom() (map[string][]models.Book, erro
 }
 
 func (b *Book) SearchBooks(query string) ([]models.Book, error) {
-	// Простейший поиск по названию или автору:
 	sqlQuery := `
     SELECT 
         b.book_id,

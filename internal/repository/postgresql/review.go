@@ -84,7 +84,7 @@ func (r *Review) GetUserReviews(userID int) ([]models.Review, error) {
 			&review.BookID,
 			&review.BookTitle,
 			&review.Rating,
-			&review.Comment, // <- добавьте поле comment
+			&review.Comment,
 			&review.Created,
 		)
 		if err != nil {
