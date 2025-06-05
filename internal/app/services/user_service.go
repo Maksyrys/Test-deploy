@@ -53,10 +53,8 @@ func (s *userService) LoginUser(email, password string) (models.User, error) {
 		return user, err
 	}
 
-	// Логируем хеш пароля, полученный из БД
 	log.Printf("Пользователь найден: %s, хеш пароля: %s", user.Username, user.Password)
 
-	// Проверяем введённый пароль и логируем результат сравнения
 	if !utils.CheckPasswordHash(password, user.Password) {
 		log.Printf("Сравнение хеша не прошло. Введённый пароль: %q, ожидаемый хеш: %s", password, user.Password)
 		return user, errors.New("Неверный пароль")

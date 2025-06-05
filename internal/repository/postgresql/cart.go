@@ -14,7 +14,6 @@ func NewCart(db *sql.DB) *Cart {
 }
 
 func (c *Cart) AddItem(userID, bookID, quantity int) error {
-	// Если элемент уже есть в корзине, можно обновить количество
 	var currentQuantity int
 	err := c.DB.QueryRow("SELECT quantity FROM cart_items WHERE user_id = $1 AND book_id = $2", userID, bookID).Scan(&currentQuantity)
 	if err != nil && err != sql.ErrNoRows {
@@ -22,12 +21,10 @@ func (c *Cart) AddItem(userID, bookID, quantity int) error {
 	}
 
 	if err == sql.ErrNoRows {
-		// Вставляем новую запись
 		_, err = c.DB.Exec("INSERT INTO cart_items (user_id, book_id, quantity) VALUES ($1, $2, $3)", userID, bookID, quantity)
 		return err
 	}
 
-	// Если запись уже существует – обновляем количество
 	_, err = c.DB.Exec("UPDATE cart_items SET quantity = $1 WHERE user_id = $2 AND book_id = $3", currentQuantity+quantity, userID, bookID)
 	return err
 }
@@ -38,7 +35,6 @@ func (c *Cart) RemoveItems(userID, bookID int) error {
 }
 
 func (c *Cart) RemoveOneItem(userID, bookID int) error {
-	// Получаем текущее количество товара
 	var currentQuantity int
 	err := c.DB.QueryRow("SELECT quantity FROM cart_items WHERE user_id = $1 AND book_id = $2", userID, bookID).Scan(&currentQuantity)
 	if err != nil {
@@ -46,11 +42,9 @@ func (c *Cart) RemoveOneItem(userID, bookID int) error {
 	}
 
 	if currentQuantity > 1 {
-		// Если книг больше одной, уменьшаем количество на 1
 		_, err = c.DB.Exec("UPDATE cart_items SET quantity = quantity - 1 WHERE user_id = $1 AND book_id = $2", userID, bookID)
 		return err
 	}
-	// Если количество равно 1, удаляем запись
 	_, err = c.DB.Exec("DELETE FROM cart_items WHERE user_id = $1 AND book_id = $2", userID, bookID)
 	return err
 }

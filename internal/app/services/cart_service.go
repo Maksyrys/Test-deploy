@@ -6,27 +6,22 @@ import (
 )
 
 type CartItemDetail struct {
-	Book     models.Book // Данные книги.
-	Quantity int         // Количество экземпляров.
-	Total    float64     // Стоимость (Quantity * Price).
+	Book     models.Book
+	Quantity int
+	Total    float64
 }
 
 type CartDetails struct {
-	Items         []CartItemDetail // Список элементов корзины.
-	GrandTotal    float64          // Общая стоимость корзины.
-	TotalQuantity int              // Общее количество книг.
+	Items         []CartItemDetail
+	GrandTotal    float64
+	TotalQuantity int
 }
 
 type CartService interface {
-	// GetCartDetails возвращает детальную информацию по корзине пользователя.
 	GetCartDetails(userID int) (*CartDetails, error)
-	// AddItem добавляет товар в корзину.
 	AddItem(userID, bookID, quantity int) error
-	// RemoveOneItem уменьшает количество товара на единицу или удаляет его, если их осталось 1.
 	RemoveOneItem(userID, bookID int) error
-	// RemoveAllItems удаляет все экземпляры товара из корзины.
 	RemoveAllItems(userID, bookID int) error
-	// GetCartCount возвращает общее количество товаров в корзине.
 	GetCartCount(userID int) (int, error)
 }
 

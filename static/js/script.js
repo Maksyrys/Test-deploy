@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addToCartBtn = document.querySelector('.btn-add-cart');
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', async function () {
-            // Если книга уже в корзине, отправляем в корзину
+
             if (this.dataset.inCart === 'true') {
                 window.location.href = '/cart';
                 return;
