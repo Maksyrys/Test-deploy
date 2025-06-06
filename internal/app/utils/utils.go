@@ -36,11 +36,11 @@ func CheckPasswordHash(password, hash string) bool {
 
 func Render(w http.ResponseWriter, templateFile string, data interface{}) {
 	tmpl := template.Must(template.ParseFiles(
-		"./templates/layout.html",
-		"./templates/header.html",
-		"./templates/modal.html",
-		"./templates/footer.html",
-		templateFile,
+		"templates/layout.html",
+		"templates/header.html",
+		"templates/modal.html",
+		"templates/footer.html",
+		templateFile, // например, "templates/admin.html"
 	))
 
 	var buf bytes.Buffer
