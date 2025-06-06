@@ -45,52 +45,47 @@ INSERT INTO books
 VALUES
     (31, 'Война и мир', 1, 2, 29.99,
      'Эпическая сага о Наполеоновских войнах', '1869-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://www.litres.ru/book/lev-tolstoy/voyna-i-mir-kollekcionnoe-illustrirovannoe-izdanie-69495367/',
      'Подробное описание книги «Война и мир»'),
 
     (32, 'Преступление и наказание', 2, 2, 19.99,
      'Психологический роман о борьбе добра и зла', '1866-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://www.mann-ivanov-ferber.ru/books/prestuplenie-i-nakazanie-young-adult/',
      'Подробное описание книги «Преступление и наказание»'),
 
     (33, 'Мастер и Маргарита', 3, 3, 24.50,
      'Фантастический роман с элементами сатиры', '1967-01-01',
-     'https://static10.labirint.ru/books/668307/cover.jpg',
+     'https://eksmo.ru/book/master-i-margarita-ITD912912/',
      'Подробное описание книги «Мастер и Маргарита»'),
 
     (34, 'Анна Каренина', 1, 2, 22.50,
      'Роман о трагической любви', '1877-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://azbooka.ru/books/anna-karenina-sexm',
      'Подробное описание книги «Анна Каренина»'),
 
     (35, 'Евгений Онегин', 4, 2, 15.00,
      'Роман в стихах о любви и судьбе', '1833-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://azbooka.ru/books/evgeniy-onegin-r9la',
      'Подробное описание книги «Евгений Онегин»'),
 
     (36, 'Братья Карамазовы', 2, 2, 25.99,
      'Философский роман о семье и вере', '1880-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://azbooka.ru/books/bratya-karamazovy-mjqk',
      'Подробное описание книги «Братья Карамазовы»'),
 
     (38, 'Отцы и дети', 5, 2, 17.99,
      'Роман о конфликте поколений', '1862-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://eksmo.ru/book/ottsy-i-deti-ITD1278953/',
      'Подробное описание книги «Отцы и дети»'),
 
     (41, 'Герой нашего времени', 8, 2, 14.99,
      'Роман о судьбе человека в обществе', '1840-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://www.ozon.ru/product/geroy-nashego-vremeni-oblozhka-s-ill-paracosm-nastya-kalyuzhnaya-lermontov-mihail-yurevich-1359953504/',
      'Подробное описание книги «Герой нашего времени»'),
-
-    (42, 'Тихий Дон', 9, 4, 27.50,
-     'Эпическая сага о жизни донского казачества', '1928-01-01',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
-     'Подробное описание книги «Тихий Дон»'),
 
     (60, '1984', 21, 3, 13.50,
      'Антиутопический роман о тоталитарном обществе', '1949-06-08',
-     'https://avatars.mds.yandex.net/get-mpic/6256254/img_id1950319922491327990.jpeg/orig',
+     'https://azbooka.ru/books/master-i-margarita-r4as',
      'Подробное описание книги «1984»')
     ON CONFLICT (book_id) DO NOTHING;
 
