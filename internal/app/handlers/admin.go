@@ -41,7 +41,7 @@ func (h *Handler) AdminDashboardHandler(w http.ResponseWriter, r *http.Request) 
 		Reviews:     reviews,
 		Categories:  categories,
 	}
-	utils.Render(w, "templates/admin.html", data)
+	utils.Render(w, "./templates/admin.html", data)
 }
 
 func (h *Handler) AdminAddBookHandler(w http.ResponseWriter, r *http.Request) {
