@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
-	"strings"
+	"path/filepath"
 )
 
 type contextKey string
@@ -40,17 +40,18 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func Render(w http.ResponseWriter, templateFile string, data interface{}) {
-	// Убираем "./" в начале, если есть
-	if strings.HasPrefix(templateFile, "./") {
-		templateFile = templateFile[2:]
-	}
+	// Извлекаем только имя файла (например "admin.html")
+	filename := filepath.Base(templateFile)
+	// Собираем путь внутри embed.FS — "templates/admin.html"
+	tplPath := filepath.Join("templates", filename)
 
+	// Парсим layout + все общие элементы + нужный шаблон
 	tmpl := template.Must(template.New("layout.html").ParseFS(templatesFS,
 		"templates/layout.html",
 		"templates/header.html",
 		"templates/modal.html",
 		"templates/footer.html",
-		templateFile,
+		tplPath,
 	))
 
 	var buf bytes.Buffer
@@ -58,7 +59,6 @@ func Render(w http.ResponseWriter, templateFile string, data interface{}) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	buf.WriteTo(w)
 }
