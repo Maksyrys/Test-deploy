@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 type contextKey string
@@ -39,6 +40,11 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func Render(w http.ResponseWriter, templateFile string, data interface{}) {
+	// Убираем "./" в начале, если есть
+	if strings.HasPrefix(templateFile, "./") {
+		templateFile = templateFile[2:]
+	}
+
 	tmpl := template.Must(template.New("layout.html").ParseFS(templatesFS,
 		"templates/layout.html",
 		"templates/header.html",
@@ -48,12 +54,11 @@ func Render(w http.ResponseWriter, templateFile string, data interface{}) {
 	))
 
 	var buf bytes.Buffer
-	err := tmpl.ExecuteTemplate(&buf, "layout", data)
-	if err != nil {
+	if err := tmpl.ExecuteTemplate(&buf, "layout", data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	_, _ = buf.WriteTo(w)
+	buf.WriteTo(w)
 }
