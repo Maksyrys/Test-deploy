@@ -13,7 +13,6 @@ type contextKey string
 
 const UserContextKey = contextKey("currentUser")
 
-//go:embed templates/*.html
 var templatesFS embed.FS
 
 func GetCurrentUser(r *http.Request) *models.User {
