@@ -13,6 +13,7 @@ WORKDIR /app
 
 COPY --from=builder /app/bookstore .
 COPY --from=builder /app/static    ./static
+COPY --from=builder /app/templates ./templates
 
 ENV PORT=8080 APP_ENV=production
 EXPOSE 8080
