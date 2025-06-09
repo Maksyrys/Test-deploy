@@ -27,7 +27,7 @@ func (h *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		CurrentUser: user,
 	}
 
-	utils.Render(w, "../../templates/index.html", data)
+	utils.Render(w, "templates/index.html", data)
 }
 
 func (h *Handler) BookHandler(w http.ResponseWriter, r *http.Request) {
