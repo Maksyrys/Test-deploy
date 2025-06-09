@@ -3,7 +3,6 @@ package utils
 import (
 	"BookStore/internal/models"
 	"bytes"
-	"embed"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
@@ -12,8 +11,6 @@ import (
 type contextKey string
 
 const UserContextKey = contextKey("currentUser")
-
-var templatesFS embed.FS
 
 func GetCurrentUser(r *http.Request) *models.User {
 	val := r.Context().Value(UserContextKey)
@@ -38,11 +35,11 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func Render(w http.ResponseWriter, templateFile string, data interface{}) {
-	tmpl := template.Must(template.New("layout.html").ParseFS(templatesFS,
-		"templates/layout.html",
-		"templates/header.html",
-		"templates/modal.html",
-		"templates/footer.html",
+	tmpl := template.Must(template.ParseFiles(
+		"./templates/layout.html",
+		"./templates/header.html",
+		"./templates/modal.html",
+		"./templates/footer.html",
 		templateFile,
 	))
 
