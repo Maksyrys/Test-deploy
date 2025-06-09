@@ -28,7 +28,7 @@ func (h *Handler) FavoritesHandler(w http.ResponseWriter, r *http.Request) {
 		CurrentUser: user,
 		Favorites:   favorites,
 	}
-	utils.Render(w, "./templates/favorites.html", data)
+	utils.Render(w, "templates/favorites.html", data)
 }
 
 func (h *Handler) AddFavoriteHandler(w http.ResponseWriter, r *http.Request) {

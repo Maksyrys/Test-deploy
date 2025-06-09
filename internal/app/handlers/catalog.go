@@ -30,5 +30,5 @@ func (h *Handler) CatalogHandler(w http.ResponseWriter, r *http.Request) {
 		Books:                catalogData.Books,
 	}
 
-	utils.Render(w, "./templates/catalog.html", data)
+	utils.Render(w, "templates/catalog.html", data)
 }

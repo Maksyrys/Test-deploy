@@ -74,7 +74,7 @@ func (h *Handler) BookHandler(w http.ResponseWriter, r *http.Request) {
 		UserReviewExists: bookDetails.UserReviewExists,
 	}
 
-	utils.Render(w, "./templates/book.html", data)
+	utils.Render(w, "templates/book.html", data)
 }
 
 func (h *Handler) SearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -91,7 +91,7 @@ func (h *Handler) SearchHandler(w http.ResponseWriter, r *http.Request) {
 			Query:       "",
 			Books:       nil,
 		}
-		utils.Render(w, "./templates/search.html", data)
+		utils.Render(w, "templates/search.html", data)
 		return
 	}
 
@@ -112,5 +112,5 @@ func (h *Handler) SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Books:       books,
 	}
 
-	utils.Render(w, "./templates/search.html", data)
+	utils.Render(w, "templates/search.html", data)
 }

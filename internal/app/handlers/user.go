@@ -49,7 +49,7 @@ func (h *Handler) ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		CartCount:      cartCount,
 	}
 
-	utils.Render(w, "./templates/profile.html", data)
+	utils.Render(w, "templates/profile.html", data)
 }
 
 func (h *Handler) EditProfileHandler(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +86,7 @@ func (h *Handler) EditProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		CurrentUser: user,
 	}
-	utils.Render(w, "./templates/edit_profile.html", data)
+	utils.Render(w, "templates/edit_profile.html", data)
 }
 
 func (h *Handler) RegisterHandler(w http.ResponseWriter, r *http.Request) {
