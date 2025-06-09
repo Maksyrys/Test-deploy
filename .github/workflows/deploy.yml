@@ -23,4 +23,5 @@ jobs:
           port: 22
           script: |
             cd ~/Test-deploy
+            git pull
             docker compose up -d --build
